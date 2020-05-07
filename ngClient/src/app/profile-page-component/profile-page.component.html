@@ -1,0 +1,116 @@
+<div class="p-4">
+  <h2 class="text-2xl font-semibold leading-tight mb-2" style="border-bottom: 1px solid gray">Personal Info:</h2>
+  <div>
+    <div class="ui-toolbar-group-left flex">
+      <div class="mr-2">
+        <button pButton type="button" label="Save" icon="pi pi-save" class="ui-button-success"
+          (click)="save()" [disabled]="!(contactInfoForm.valid&&contactInfoForm.dirty)"></button>
+      </div>
+      <div class="mr-2">
+        <button pButton type="button" label="Edit" icon="pi pi-pencil" class="ui-button-primary"
+        (click)="toggleEdit()"></button>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="contactInfoForm">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+
+      <div class="ui-grid-row">
+        <div class="ui-g-12">
+          <label for="float-input">Username:</label>
+          <input id="float-input" formControlName="username" type="text" autocomplete="off" pInputText>
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-g-4">
+          <label for="float-input">First Name:</label>
+          <input id="float-input" formControlName="fname" type="text" autocomplete="off" pInputText>
+          <div class="text-red-700" *ngIf="!contactInfoForm.controls['fname'].valid&&contactInfoForm.controls['fname'].dirty">
+            First Name is required!
+          </div>
+        </div>
+        <div class="ui-g-4">
+          <label for="float-input">Last Name:</label>
+          <input id="float-input" formControlName="lname" type="text" autocomplete="off" pInputText>
+          <div class="text-red-700" *ngIf="!contactInfoForm.controls['lname'].valid&&contactInfoForm.controls['lname'].dirty">
+            Last Name is required!
+          </div>
+        </div>
+        <div class="ui-g-4">
+          <label for="float-input">Middle Name:</label>
+          <input id="float-input" formControlName="mname" type="text" autocomplete="off" pInputText>
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-g-12">
+          <label for="float-input">Email:</label>
+          <input id="float-input" formControlName="email" type="text" autocomplete="off" pInputText>
+          <div class="text-red-700" *ngIf="!contactInfoForm.controls['email'].valid&&contactInfoForm.controls['email'].dirty">
+            Email is invalid!
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-g-12">
+          <label for="price">Date Of Birth:</label>
+          <p-calendar formControlName="dob" [maxDate]="maxDateValue" [monthNavigator]="true" [yearNavigator]="true"  [yearRange]="yearRange"></p-calendar>
+          <!-- <input id="price" type="text" autocomplete="off" pInputText> -->
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-g-6 mt-2">
+          <label>Mobile Phone:</label>
+          <p-inputMask id="phone" placeholder="+380-(__)-___-____" formControlName="mainPhone"
+            mask="+380-(99)-999-9999">
+          </p-inputMask>
+          <div class="text-red-700" *ngIf="!contactInfoForm.controls['mainPhone'].valid&&contactInfoForm.controls['mainPhone'].dirty">
+            Mobile Phone is invalid!
+          </div>
+        </div>
+        <div class="ui-g-6 mt-2">
+          <label>Additional Phone:</label>
+          <p-inputMask id="phone" placeholder="+380-(__)-___-____" formControlName="addPhone" mask="+380-(99)-999-9999">
+          </p-inputMask>
+        </div>
+      </div>
+
+
+    </div>
+  </form>
+
+  <!-- <div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Username</div>
+      <div class="w-2/6 p-2 value-color">{{user?.username}}</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Name</div>
+      <div class="w-2/6 p-2 value-color">{{getName(user)}}</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Email</div>
+      <div class="w-2/6 p-2 value-color">{{user?.contactInfo?.email}}</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Main phone</div>
+      <div class="w-2/6 p-2 value-color">{{user?.contactInfo?.phone1}}</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Additional Phone</div>
+      <div class="w-2/6 p-2 value-color">{{user?.contactInfo?.phone2}}</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Address 1</div>
+      <div class="w-2/6 p-2 value-color">Address 1</div>
+    </div>
+    <div class="flex">
+      <div class="w-4/6 p-2 font-semibold">Address 2</div>
+      <div class="w-2/6 p-2 value-color">Address 2</div>
+    </div>
+  </div> -->
+
+</div>

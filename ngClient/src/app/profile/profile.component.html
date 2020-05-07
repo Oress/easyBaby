@@ -1,0 +1,60 @@
+<div class="container flex">
+  <div class="w-1/5">
+    <div class="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-lg">
+      
+      <span [routerLink]="['/profile']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <i class="w-8 fas fa-user p-2 bg-gray-200 rounded-full"></i>
+        <span class="mx-2">Profile</span>
+      </span>
+
+      <span [routerLink]="['/profile/cart']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <span class="w-8 mb-5 relative">
+          <i class="w-8 fas fa-shopping-basket p-2 bg-gray-200 rounded-full"></i>
+          <span *ngIf="cartCount" 
+            class="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">{{cartCount}}</span>
+        </span>
+        <span class="mx-2">Cart</span>
+      </span>
+      
+      <span [routerLink]="['/profile/fav']" class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <span class="w-8 mb-5 relative">
+          <i class="w-8 fas fa-heart p-2 bg-gray-200 rounded-full"></i>
+          <span *ngIf="favsCount"
+            class="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">{{favsCount}}</span>
+        </span>
+        <span class="mx-2">Favourites</span>
+      </span>
+      
+      <span [routerLink]="['/profile/orders']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <span class="w-8 mb-5 relative">
+          <i class="w-8 fas fa-user p-2 bg-gray-200 rounded-full"></i>
+        </span>
+        <span class="mx-2">My orders</span>
+      </span>
+      
+      <span [routerLink]="['/profile/preorders']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <i class="w-8 fas fa-calendar-alt p-2 bg-gray-200 rounded-full"></i>
+        <span class="mx-2">Preorders</span>
+      </span>
+     
+      <span *ngIf="isStaff" [routerLink]="['/profile/product']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <i class="w-8 fas fa-boxes p-2 bg-gray-200 rounded-full"></i>
+        <span class="mx-2">Products</span>
+      </span>
+      
+      <span *ngIf="isStaff" [routerLink]="['/profile/setups']"
+        class="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded block ">
+        <i class="w-8 fas  fa-cog p-2 bg-gray-200 rounded-full"></i>
+        <span class="mx-2">Other Setups</span>
+      </span>
+    </div>
+  </div>
+  <div class="w-4/5 pl-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>

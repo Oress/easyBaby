@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="bg-white">
+        <div class="flex ">
+            <div class="w-3/12">
+                <div class="mb-4">
+                    <!-- class="h-56 w-full object-cover mt-2" -->
+                    <!-- <img *ngIf="firstImage; else defImage" [src]="'/api/product/img?uid=' + firstImage.path"> -->
+                    <ng-template #defImage>
+                        <img src="assets/images/no_image.png">
+                    </ng-template>
+                    <!-- <div class="ui-fluid ui-g-12 flex overflow-x-auto">
+                        <img *ngFor="let img of images" class="h-24 w-24 mr-2 object-cover" [src]="img.thumbnail">
+                    </div> -->
+                    <p-galleria [images]="images" panelWidth="300" panelHeight="300" [showCaption]="false"></p-galleria>
+
+                    <!-- <p-lightbox [images]="images"></p-lightbox> -->
+                </div>
+                <div class="mb-4">
+                    <div class="text-2xl font-medium text-grey-darkest">
+                        {{product?.title}}
+                    </div>
+                    <div class="text-xl text-grey-dark font-light">
+                        {{product?.price | currency:"UAH":"symbol-narrow"}}
+                    </div>
+                </div>
+                <div class="flex items-center text-left py-4 mb-4 border-b border-t">
+                    <!-- BUY. BUTTON -->
+                    <div class="mr-2">
+                        <button pButton *ngIf="!isInCart; else bought" label="Buy" (click)="addToCart()" class="border-blue-700"></button>
+                    </div>
+                    <!-- <button class="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 w-20 border border-blue-700 rounded">Buy</button> -->
+                    <ng-template #bought>
+                        <a [routerLink]="['/profile/cart']">
+                            <p class="mr-2"><i class="far fa-check-circle mr-1 text-green-600"
+                                    style="font-size:1.1em"></i>Go to cart</p>
+                        </a>
+
+                    </ng-template>
+
+                    <!-- FAV. BUTTON -->
+                    <div (click)="toggleLiked()" class="cursor-pointer heart">
+                        <i *ngIf="!isLiked; else liked" class="far fa-heart"></i>
+                        <ng-template #liked>
+                            <i class="fas fa-heart" style="color: #98002E"></i>
+                        </ng-template>
+                    </div>
+
+                </div>
+            </div>
+            <div class="w-9/12 ml-6 mt-2">
+                <!-- OPTIONS -->
+                <p-tabView>
+                    <p-tabPanel header="Description">
+                        <div [innerHTML]="product?.description"></div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Characteristics">
+                        Content 12
+                    </p-tabPanel>
+                    <p-tabPanel header="Reviews">
+                        Content 13
+                    </p-tabPanel>
+                    <p-tabPanel header="You may also like">
+                        Content 14
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </div>
+    </div>
+</div>

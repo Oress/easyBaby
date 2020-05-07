@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="mx-auto px-8 py-4" style="background-color: #122538; color: whitesmoke;">
+    <nav class="level">
+      <!-- SHOP NAME -->
+      <div class="level-left">
+        <div class="level-item">
+          <p [routerLink]="['/']" class="cursor-pointer subtitle is-4">
+            <strong style="color: whitesmoke;">EasyBaby</strong>
+          </p>
+        </div>
+        <!-- <div class="level-item" style="margin-left: 4em">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input" type="text" placeholder="Поиск">
+            </p>
+            <p class="control">
+              <button class="button">
+                Наити
+              </button>
+            </p>
+          </div>
+        </div> -->
+      </div>
+
+      <!-- RIGHT SUBMENU -->
+      <div class="level-right">
+        <p class="level-item"><a>РУС</a> <b>|</b> <a>УКР</a></p>
+        <p class="level-item"><i class="far fa-heart" style="font-size: 1.2em"></i></p>
+        
+        <!-- <p class="level-item" (mouseenter)="basketTmpl.toggle($event)" (mouseleave)="basketTmpl.toggle($event)"> -->
+        <p [routerLink]="['/profile/cart']"  class="level-item cursor-pointer">
+          <i class="fas fa-shopping-basket" style="font-size: 1.2em"></i>
+        </p>
+        
+        <p *ngIf="!user; else username" class="level-item" (click)="displayLogin=true">
+          <i class="fas fa-sign-in-alt mr-2" style="font-size: 1.2em"></i> Войти
+        </p>
+        
+        <ng-template #username>
+          <a [routerLink]="['/profile']">
+            <p class="level-item">{{user?.username}}</p>
+          </a>
+        </ng-template>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<p-dialog [(visible)]="displayLogin" [modal]="true" [draggable]="false" position="top" [style]="{width: '480px'}"
+  [showHeader]="false">
+  <app-signup (succsessfulLogin)="displayLogin=false"></app-signup>
+</p-dialog>
+
+<p-overlayPanel #basketTmpl>
+  {{ totalBasketCost }} грн.
+</p-overlayPanel>

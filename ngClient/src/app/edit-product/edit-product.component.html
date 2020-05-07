@@ -1,0 +1,96 @@
+<div *ngIf="loading; else form" class="flex" style="justify-content: center;">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<ng-template #form>
+  <p-toolbar>
+    <div class="ui-toolbar-group-left">
+      <button pButton type="button" label="Save" icon="pi pi-save" class="ui-button-success"
+        (click)="onSave()"></button>
+    </div>
+    <div class="ui-toolbar-group-right">
+    </div>
+  </p-toolbar>
+  <p-tabView>
+
+    <p-tabPanel header="Description">
+      <form [formGroup]="userform">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+          <div class="ui-grid-row">
+            <div class="ui-g-12">
+              <label for="float-input">Title:</label>
+              <input id="float-input" formControlName="title" type="text" pInputText>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-g-12">
+              <label for="price">Price:</label>
+              <input id="price" formControlName="price" currencyMask [options]="{ prefix: '₴'}" type="text" pInputText>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-g-12 mt-2">
+              <label>Description:</label>
+              <p-editor formControlName="description" [style]="{'height':'320px', 'width':'100%'}"></p-editor>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              Categories *:
+            </div>
+            <div class="ui-grid-col-6">
+              <p-autoComplete formControlName="categories" [suggestions]="categoriesSuggestions"
+                (completeMethod)="filterCategories($event)" field="title" [delay]="300" [multiple]="true">
+              </p-autoComplete>
+            </div>
+            <div class="ui-grid-col-4"></div>
+          </div>
+        </div>
+      </form>
+    </p-tabPanel>
+
+    <p-tabPanel header="Inventory">
+      <app-prod-inv-item #iitem [product]="product" [staff]="user"></app-prod-inv-item>
+    </p-tabPanel>
+
+    <p-tabPanel header="Product Characteristics">
+      <app-prod-charval></app-prod-charval>
+    </p-tabPanel>
+
+    <p-tabPanel header="Images">
+      <p-fileUpload name="imgs" (onBeforeUpload)="beforeUpload($event)" accept="image/jpeg" multiple="true"
+        url="/api/product/uploadImages"></p-fileUpload>
+      <p-table [value]="product?.images" dataKey="id" [loading]="loading">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Preview</th>
+            <th>Image id</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+          <tr>
+            <td>
+              <div (click)="selectImage(image, $event,target)">
+                <img style="width: 64px;" [src]="'/api/product/img?uid=' + image?.path_sm" #target>
+              </div>
+            </td>
+            <td>
+              {{image.path}}
+            </td>
+            <td>
+              <a (click)="removeImage(image)">Remove</a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8" style="text-align:left">No Images found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-overlayPanel #op>
+        <img *ngIf="displayFullImage" style="width: 300px;" [src]="'/api/product/img?uid=' + selectedImage?.path">
+      </p-overlayPanel>
+    </p-tabPanel>
+  </p-tabView>
+</ng-template>

@@ -1,0 +1,75 @@
+<p-table [value]="charVals" dataKey="id" selectionMode="single" scrollHeight="200px" [scrollable]="true"
+         (onRowSelect)="onRowSelect($event)" [(selection)]="selectedItem">
+  <ng-template pTemplate="caption">
+    <div style="text-align:left">
+      <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Add"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="productCharName">Name
+        <p-sortIcon field="title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="value">Value</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-charVals>
+    <tr [pSelectableRow]="charVals">
+      <td>
+        {{charVals.productCharName}}
+      </td>
+      <td>
+        {{charVals.value}}
+      </td>
+      <td>
+        <a>Remove</a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8" style="text-align:left">No Inventory Items found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-dialog [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+          [modal]="true" [style]="{width: '300px'}">
+  <div class="ui-g ui-fluid" *ngIf="item">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label>Name</label>
+      </div>
+      <div class="ui-g-8">
+        <p-autoComplete [(ngModel)]="item.productCharName" field="title" (onSelect)="changeProdChar($event)"
+                        [suggestions]="prodCharsSugg" (completeMethod)="searchProdChars($event)"></p-autoComplete>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="year">Type</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="year" [(ngModel)]="item.productCharType" [disabled]="true"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="brand">Value</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="brand" [(ngModel)]="item.value"/>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button *ngIf="newItem; else del" type="button" pButton icon="pi pi-times" (click)="delete()"
+              label="Cancel"></button>
+      <ng-template #del>
+        <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
+      </ng-template>
+      <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>

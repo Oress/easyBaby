@@ -1,0 +1,77 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <button pButton type="button" label="Add" icon="pi pi-plus" class="ui-button-success"
+      (click)="addProduct()"></button>
+  </div>
+</p-toolbar>
+<p-table #dt [value]="products" dataKey="id" [rowHover]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" [rows]="pageSize"
+  [showCurrentPageReport]="true" [lazy]="true" [loading]="loading" (onLazyLoad)="loadPage($event)" [paginator]="true"
+  [filterDelay]="0" [totalRecords]="totalRecords">
+  <ng-template pTemplate="caption">
+    List of Products
+    <!--    <div class="ui-table-globalfilter-container">
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 placeholder="Global Search"/>
+        </div>-->
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th width="40px"></th>
+      <th pSortableColumn="title">Title
+        <p-sortIcon field="title"></p-sortIcon>
+      </th>
+      <!-- <th pSortableColumn="description">Description
+        <p-sortIcon field="description"></p-sortIcon>
+      </th> -->
+      <th pSortableColumn="registrationDate">Registration Date
+        <p-sortIcon field="registrationDate"></p-sortIcon>
+      </th>
+      <!--      <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>-->
+      <!--      <th pSortableColumn="status">Status<p-sortIcon field=""></p-sortIcon></th>-->
+      <th pSortableColumn="addedBy">Added By
+        <p-sortIcon field="addedBy"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-products let-expanded="expanded">
+    <tr (click)="selectProduct(products)" class="ui-selectable-row">
+      <td>
+        <a href="#" [pRowToggler]="products">
+          <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+        </a>
+      </td>
+      <td>
+        {{products.title}}
+      </td>
+      <!-- <td>
+        <div [innerHTML]="products.description"></div>
+      </td> -->
+      <td>
+        {{products.registrationDate | date:'medium'}}
+      </td>
+      <td>
+        {{getStaffById(products.addedById)?.username}}
+      </td>
+    </tr>
+  </ng-template>
+  <!-- <ng-template pTemplate="rowexpansion" let-products>
+    <tr>
+      <td [attr.colspan]="5">
+        <app-edit-product [product]="products" [user]="user"></app-edit-product>
+      </td>
+    </tr>
+  </ng-template> -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8" style="text-align:left">No products found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-sidebar [(visible)]="displayDialog" [fullScreen]="true">
+    <p-scrollPanel [style]="{width: '100%', height: '100%'}">
+      <app-edit-product *ngIf="displayDialog" [isNew]="isNew" [product]="selectedProduct" [user]="user"
+        (saved)="onProductAdded($event)"></app-edit-product>
+    </p-scrollPanel>
+</p-sidebar>

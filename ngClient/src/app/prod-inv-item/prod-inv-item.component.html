@@ -1,0 +1,53 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="ui-inputgroup">
+      <input type="text" pInputText placeholder="Barcode" [(ngModel)]="barcode" (keypress)="onEnterPress($event)">
+      <button pButton type="button" label="Add" (click)="addItem()" ></button>
+    </div>
+  </div>
+</div>
+<p-table [value]="inventoryItems" dataKey="id" [loading]="loading" [scrollable]="true">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="title">Barcode
+        <p-sortIcon field="title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="description">Added by
+        <p-sortIcon field="description"></p-sortIcon>
+      </th>
+      <th pSortableColumn="registrationDate">Registration Date
+        <p-sortIcon field="registrationDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="addedBy">Status
+        <p-sortIcon field="addedBy"></p-sortIcon>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-inventoryItems>
+    <tr [style.background-color]="getRowBg(inventoryItems)">
+      <td>
+        {{inventoryItems.barcode}}
+      </td>
+      <td>
+        {{getStaffById(inventoryItems.addedById)?.username}}
+      </td>
+      <td>
+        {{inventoryItems.registrationDate | date:'medium'}}
+      </td>
+      <td>
+        {{inventoryItems.status}}
+      </td>
+      <td>
+          <a (click)="removeItem(inventoryItems)">Remove</a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8" style="text-align:left">No Inventory Items found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-toast [style]="{marginTop: '80px'}" position="top-center" key="tc"></p-toast>
+

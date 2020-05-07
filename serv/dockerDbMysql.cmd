@@ -1,0 +1,1 @@
+docker run -v bshopdataMysql:/var/lib/mysql --name bshop -e MYSQL_ROOT_PASSWORD=pwd -p 3306:3306  mysql:latest

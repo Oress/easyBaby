@@ -1,0 +1,211 @@
+<div class="items-center justify-center bg-gray-50 py-2 px-4">
+  <div>
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <i *ngIf="registration" (click)="registration=false" class="fas fa-arrow-left"></i>
+        </div>
+      </div>
+      <!--      <div class="level-right">
+              <i (click)="registration=" class="fas fa-times"></i>
+            </div>-->
+    </nav>
+  </div>
+  <div class="w-full">
+    <!-- SIGNING IN -->
+    <div *ngIf="!registration; else regTmpl">
+      <div>
+        <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+          Log In
+        </h2>
+        <p class="mt-2 text-center text-sm leading-5 text-gray-600">
+          Or
+          <!--          <a (click)="registration=true"-->
+          <a (click)="registration=true"
+            class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+            Sign Up
+          </a>
+        </p>
+      </div>
+      <div class="mt-8">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-g-12">
+              <span class="ui-float-label">
+                <input [(ngModel)]="username" id="username" type="text" pInputText autocomplete="off">
+                <label for="username">Username</label>
+              </span>
+            </div>
+          </div>
+          <div class="ui-grid-row mt-2">
+            <div class="ui-g-12">
+              <span class="ui-float-label">
+                <input [(ngModel)]="pwd" id="pwd" type="password" pInputText>
+                <label for="pwd">Password</label>
+              </span>
+            </div>
+          </div>
+          <div class="ui-g-12 text-red-700" *ngIf="lastLoginAttempt">
+            Invalid username and/or password!
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-between">
+          <div class="flex items-center">
+            <input id="remember_me" type="checkbox"
+              class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+            <label for="remember_me" class="ml-2 block text-sm leading-5 text-gray-900">
+              Запомнить
+            </label>
+          </div>
+
+          <div class="text-sm leading-5">
+            <a href="#"
+              class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+              Забыли пароль?
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <button pButton (click)="signin()" type="button" label="Sign In" style="width: 100%;"
+            class="ui-button-raised"></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REGISTRATION -->
+    <ng-template #regTmpl>
+      <div class="flex flex-col">
+        <div>
+          <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+            Registration
+          </h2>
+        </div>
+        <form class="mt-8">
+          <div class="rounded-md shadow-sm">
+            <form [formGroup]="regForm">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+
+                <!-- USERNAME -->
+                <div class="ui-grid-row">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <input formControlName="username" id="username" type="text" pInputText autocomplete="off">
+                      <label for="username">
+                        Username
+                      </label>
+                    </span>
+                    <div class="text-red-700"
+                      *ngIf="!regForm.controls['username'].valid&&regForm.controls['username'].dirty">
+                      Username is invalid!
+                    </div>
+                  </div>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="ui-grid-row  mt-2">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <input formControlName="email" id="email" type="email" pInputText autocomplete="off">
+                      <label for="email">Email</label>
+                    </span>
+                    <div class="text-red-700" *ngIf="!regForm.controls['email'].valid&&regForm.controls['email'].dirty">
+                      Email is invalid!
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PHONE -->
+                <div class="ui-grid-row mt-2">
+                  <div class="ui-g-12">
+                    <p-inputMask id="float-input" placeholder="+380-(__)-___-____" formControlName="phone"
+                      mask="+380-(99)-999-9999"></p-inputMask>
+                    <div class="text-red-700" *ngIf="!regForm.controls['phone'].valid&&regForm.controls['phone'].dirty">
+                      Phone is invalid!
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PWD -->
+                <div class="ui-grid-row mt-2">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <input formControlName="pwd" id="pwd" type="password" pPassword>
+                      <label for="pwd">Password</label>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- PWD CONF -->
+                <div class="ui-grid-row mt-2">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <input formControlName="pwdConf" id="pwdConf" type="password" pInputText>
+                      <label for="pwdConf">Confirm Password</label>
+                    </span>
+                    <div class="text-red-700" *ngIf="regForm.controls['pwdConf'].dirty&&regForm.hasError('notSame')">
+                      Passwords do not match!
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+            <!-- 
+            <div>
+              <input aria-label="Email address" name="email" type="email" required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                placeholder="Email" />
+            </div>
+            <div>
+              <input aria-label="Username" name="username" type="text" required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                placeholder="Username" />
+            </div>
+            <div>
+              <input aria-label="Phone number" name="username" type="text" required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                placeholder="Phone number" />
+            </div>
+            <div class="-mt-px">
+              <input aria-label="Password" name="password" type="password" required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                placeholder="Пароль" />
+            </div>
+            <div class="-mt-px">
+              <input aria-label="ConfPassword" name="password" type="password" required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                placeholder="Подтвердить Пароль" />
+            </div> -->
+          </div>
+
+          <div class="mt-6">
+            <div class="ui-g-12">
+              <button pButton (click)="signUp()" [disabled]="!(regForm.valid&&regForm.dirty)" type="button"
+                label="Sign Up" style="width: 100%;" class="ui-button-raised"></button>
+            </div>
+            <!-- <button type="submit" (click)="signin()"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+              <span class="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+              Регистрация
+            </button> -->
+          </div>
+        </form>
+      </div>
+
+      <div class="flex" style="justify-content: center;">
+        <p-progressSpinner *ngIf="loading; else loaded"></p-progressSpinner>
+        <ng-template #loaded>
+          <a *ngIf="signUpResult">
+            <p class="mr-2"><i class="far fa-check-circle mr-1 text-green-600" style="font-size:1.1em"></i>Registration
+              is succsessful!</p>
+          </a>
+        </ng-template>
+      </div>
+
+    </ng-template>
+  </div>
+
+</div>

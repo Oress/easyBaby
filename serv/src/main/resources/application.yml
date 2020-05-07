@@ -1,0 +1,35 @@
+keycloak:
+  server:
+    contextPath: /auth
+    adminUser:
+      username: admin
+      password: admin
+    realmImportFile: bshop-realm.json
+
+jwt:
+  secret: secret
+
+server:
+  contextPath: '/api/*'
+
+security:
+  ignored: '/**'
+
+logging:
+  level:
+    org:
+      springframework: INFO
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+#hibernate:
+#  cache:
+#    use_second_level_cache: true
+#    region:
+#      factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+#
+

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+<!--        <property name="connection.driver_class">org.postgresql.Driver</property>-->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+<!--        <property name="connection.url">jdbc:postgresql://localhost:5432/bshop</property>-->
+<!--        <property name="connection.username">postgres</property>-->
+<!--        <property name="connection.password">pwd</property>-->
+
+        <!-- JDBC connection pool (use the built-in)-->
+        <property name="connection.pool_size">10</property>
+        <!-- SQL dialect -->
+        <!--        <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>-->
+                <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.internal.EhcacheRegionFactory</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+        <property name="hibernate.jdbc.batch_size">30</property>
+
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+
+        <mapping class="com.bshop.address.model.Address"/>
+        <mapping class="com.bshop.addressSetup.model.AddressSetup"/>
+        <mapping class="com.bshop.contactInfo.model.ContactInfo"/>
+        <mapping class="com.bshop.product.model.Product"/>
+        <mapping class="com.bshop.box.model.Box"/>
+        <mapping class="com.bshop.vendor.model.Vendor"/>
+        <mapping class="com.bshop.productCategory.model.ProductCategory"/>
+        <mapping class="com.bshop.productChar.model.ProductChar"/>
+        <mapping class="com.bshop.productCharValue.model.ProductCharValue"/>
+        <mapping class="com.bshop.user.model.User"/>
+        <mapping class="com.bshop.inventoryItem.model.InventoryItem"/>
+        <mapping class="com.bshop.ProductImage.model.ProductImage"/>
+        <mapping class="com.bshop.order.model.Order"/>
+        <mapping class="com.bshop.orderItem.model.OrderItem"/>
+        <mapping class="com.bshop.payment.model.Payment"/>
+        <mapping class="com.bshop.shipment.model.Shipment"/>
+        <mapping class="com.bshop.preorder.model.Preorder"/>
+        <mapping class="com.bshop.preorderItem.model.PreorderItem"/>
+
+    </session-factory>
+
+</hibernate-configuration>

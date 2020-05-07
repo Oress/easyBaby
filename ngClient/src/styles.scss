@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ui-tabview-panels {
+    border-top: 1px solid #c8c8c8 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    padding: 8px 0 !important;
+}
+
+.ui-tabview-title{
+    color: #4a4a4a !important;
+}
+
+.ui-tabview-nav li{
+    background-color: transparent !important;
+    border-bottom: 2 solid #e2e8f0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+    color: #4a4a4a !important;
+    border-bottom-width: 2px !important;
+}
+
+.ui-lightbox-content {
+    // height: auto !important;
+    // width: auto !important;
+}
+
+.ui-panel-titlebar {
+    border-left: 0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    
+    border-bottom: 1px solid #e2e8f0 !important;
+    background-color: transparent !important;
+
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important; 
+
+    text-rendering: optimizeLegibility;
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #4a4a4a !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+}
+
+.ui-panel-title {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important; 
+
+    text-rendering: optimizeLegibility;
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #4a4a4a !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+}
+
+
+
+.ui-panel-content{
+    border: 0 !important;
+}
+
+// .ui-slidemenu-rootlist{
+//     width: auto !important;
+// }
+
+.ui-slidemenu{
+    // width: auto !important;
+    border: 0 !important;
+}

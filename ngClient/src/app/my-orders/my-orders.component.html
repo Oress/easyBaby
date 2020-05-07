@@ -1,0 +1,128 @@
+<section class="mb-2">
+    <h4 class="text-2xl font-semibold leading-tight mb-2" style="border-bottom: 1px solid gray">My Orders:</h4>
+    <p-panel *ngFor="let item of orders" [collapsed]="true" [header]="getOrderHeader(item)" [toggleable]="true">
+        <button pButton (click)="showPreorderDialog(item)" label="Make Preorder" class="border-blue-700"></button>
+        <div>
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Total:
+                    </div>
+                    <div class="ui-grid-col-10">
+                        {{item.total | currency:"UAH":"symbol-narrow"}}
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        To:
+                    </div>
+                    <div class="ui-grid-col-10">
+                        {{item.shipmentInfo.name}}
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Address:
+                    </div>
+                    <div class="ui-grid-col-10">
+                        {{item.shipmentInfo.address}}
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Phone:
+                    </div>
+                    <div class="ui-grid-col-10">
+                        {{item.shipmentInfo.phone}}
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Delivery Type:
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <div [ngSwitch]="item.shipmentInfo.type">
+                            <div *ngSwitchCase="deliveryType.PICKUP">Pick-up</div>
+                            <div *ngSwitchCase="deliveryType.DELIVERY">Delivery</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Payment Type:
+                    </div>
+                    <div class="ui-grid-col-10">
+                        <div [ngSwitch]="item.paymentInfo.type">
+                            <div *ngSwitchCase="paymentType.UPON_RECIPT">Payment upon receipt</div>
+                            <div *ngSwitchCase="paymentType.CARD_ONLINE">Card Online</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="min-w-full leading-normal">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Product
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Quantity
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Barcodes
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let orderItem of item.orderItems">
+                                <td [routerLink]="['/product/'+orderItem.productId]"
+                                    class="cursor-pointer px-5 py-5 border-b border-gray-200 text-sm">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 w-10 h-10">
+                                            <img *ngIf="orderItem.image; else defImage"
+                                                [src]="'/api/product/img?uid=' + orderItem.image.path_sm">
+                                            <ng-template #defImage>
+                                                <img src="assets/images/no_image.png">
+                                            </ng-template>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                {{orderItem.productTitle}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{orderItem.count}}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{orderItem.barcodes}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</section>
+
+<p-dialog header="Preorder" [(visible)]="displayPreorder" [modal]="true" [contentStyle]="{height: '300px'}">
+    <div> Please enter dates when you want to recieve this package:</div>
+    <div class="mt-2" [formGroup]="preorderForm">
+        Every
+        <p-spinner class="mx-2" formControlName="count" [min]="1" [max]="6"></p-spinner>
+        <p-dropdown formControlName="period" [options]="periods"></p-dropdown>
+    </div>
+    <div class="mt-2">
+        <button pButton (click)="makePreorder()" label="Make Preorder" class="float-right border-blue-700"></button>
+    </div>
+</p-dialog>

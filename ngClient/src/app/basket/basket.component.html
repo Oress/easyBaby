@@ -1,0 +1,153 @@
+<div class="container mx-auto px-4 sm:px-4 py-4">
+  <div>
+    <h2 class="text-2xl font-semibold leading-tight">Cart</h2>
+  </div>
+  <div *ngIf="loading; else loaded" class="flex" style="justify-content: center;">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <ng-template #loaded>
+    <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+      <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Product
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Quantity
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Price per item
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Total
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of cart?.available">
+              <td [routerLink]="['/product/'+item.productId]"
+                class="cursor-pointer px-5 py-5 border-b border-gray-200 text-sm">
+                <div class="flex items-center">
+                  <div *ngIf="!item.isAvailable" class="mr-2" pTooltip="This product is unavailable" tooltipPosition="top"
+                    style="color: darkred;">
+                    <i class="fas fa-exclamation-circle"></i>
+                  </div>
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img *ngIf="item.image; else defImage" [src]="'/api/product/img?uid=' + item.image">
+                    <ng-template #defImage>
+                      <img src="assets/images/no_image.png">
+                    </ng-template>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{item.productTitle}}
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                <div class="w-1/3">
+                  <p-spinner [(ngModel)]="item.count" (onChange)="changeCount(item)" [min]="1" [max]="item.isAvailable ? 20 : item.count"></p-spinner>
+                </div>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                <p class="text-gray-900 whitespace-no-wrap">
+                  {{item.pricePerItem | currency:"UAH":"symbol-narrow"}}
+                </p>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                  <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                  <span class="relative">{{item.totalPrice | currency:"UAH":"symbol-narrow"}}</span>
+                </span>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200">
+                <i (click)="removeFromCart(item)" class="far fa-times-circle cursor-pointer"></i>
+              </td>
+            </tr>
+
+            <!-- <tr *ngFor="let item of cart?.unavailable">
+              <td [routerLink]="['/product/'+item.productId]"
+                class="cursor-pointer px-5 py-5 border-b border-gray-200  text-sm">
+                <div class="flex items-center">
+                  <div class="mr-2" pTooltip="This product is unavailable" tooltipPosition="top"
+                    style="color: darkred;">
+                    <i class="fas fa-exclamation-circle"></i>
+                  </div>
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img *ngIf="item.image; else defImage" [src]="'/api/product/img?uid=' + item.image">
+                    <ng-template #defImage>
+                      <img src="assets/images/no_image.png">
+                    </ng-template>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{item.productTitle}}
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200  text-sm">
+                <div class="w-1/3">
+                  <p-spinner [(ngModel)]="item.count" (onChange)="changeCount(item)" [min]="1" [max]="item.count">
+                  </p-spinner>
+                </div>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200  text-sm">
+                <p class="text-gray-900 whitespace-no-wrap">
+                  {{item.pricePerItem | currency:"UAH":"symbol-narrow"}}
+                </p>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200  text-sm">
+                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                  <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                  <span class="relative">{{item.totalPrice | currency:"UAH":"symbol-narrow"}}</span>
+                </span>
+              </td>
+
+              <td class="px-5 py-5 border-b border-gray-200">
+                <i (click)="removeFromCart(item)" class="far fa-times-circle cursor-pointer"></i>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+
+        <div class="px-5 py-5  border-t flex flex-col xs:flex-row xs:justify-between">
+          <span class="float-right text-xl xs:text-sm text-gray-900">TOTAL:
+            {{cart?.totalPrice | currency:"UAH":"symbol-narrow"}}</span>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="px-4 py-2  border-t flex flex-col xs:flex-row xs:justify-between">
+          <div class="inline-flex xs:mt-0" style="display: flex;justify-content: flex-end;">
+            <div class="mr-2">
+              <button pButton
+                [disabled]="cart?.available && cart?.available.length === 0"
+                (click)="clearCart()" label="Cancel" class="border-blue-700"></button>
+            </div>
+            <button pButton (click)="palceOrder()" [disabled]="!canPlaceOrder || cart?.available.length === 0"
+              label="Place an order" class="border-blue-700"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

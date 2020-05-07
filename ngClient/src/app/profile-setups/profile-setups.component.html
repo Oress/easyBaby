@@ -1,0 +1,132 @@
+<p-tabView>
+    <p-tabPanel header="Categories">
+        <div>
+            <p-treeTable [value]="categories">
+                <ng-template pTemplate="header">
+                    <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                            <button pButton type="button" label="Save" (click)="save()" icon="pi pi-save"
+                                class="ui-button-success"></button>
+                        </div>
+                        <div class="ui-toolbar-group-right">
+                        </div>
+                    </p-toolbar>
+                    <tr>
+                        <th>Category | <a (click)="addOnSameLevel(null, null)">Add</a>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr (mouseenter)="displayActions(rowNode)" (mouseleave)="hideActions(rowNode)">
+                        <td>
+                            <div class="flex items-baseline">
+                                <p-treeTableToggler #toggler [rowNode]="rowNode"></p-treeTableToggler>
+                                <div>
+                                    <p-inplace #editor>
+                                        <span pInplaceDisplay>
+                                            {{rowData.title}}
+                                        </span>
+                                        <span pInplaceContent>
+                                            <input #inp type="text" (blur)="editCatEnd(editor, $event)"
+                                                (keypress)="editCatEnd(editor, $event)" [(ngModel)]="rowData.title"
+                                                pInputText>
+                                        </span>
+                                    </p-inplace>
+                                </div>
+                                <ng-template [ngIf]="showItem.get(rowNode)">
+                                    <ng-template [ngIf]="rowNode.level < 2">
+                                        <a class="fadeinc" (click)="addOnChildLevel(rowNode, toggler, $event)">Add On
+                                            Child
+                                            Level</a>
+                                        |
+                                        <a class="fadeinc" (click)="addOnSameLevel(rowNode, toggler)">Add On This
+                                            Level</a>
+                                        |
+                                    </ng-template>
+                                    <a class="fadeinc" (click)="removeNode(rowNode)">Remove</a>
+                                </ng-template>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Product characteristics">
+        <div>
+            <p-toolbar>
+                <div class="ui-toolbar-group-left">
+                    <button pButton type="button" label="Save" (click)="saveProdChars()" icon="pi pi-save"
+                        class="ui-button-success"></button>
+                </div>
+                <div class="ui-toolbar-group-right">
+                </div>
+            </p-toolbar>
+            <p-table [value]="chars" dataKey="id" selectionMode="single" scrollHeight="400px" [scrollable]="true"
+                (onRowSelect)="onRowSelect($event)" [(selection)]="selectedItem">
+                <ng-template pTemplate="caption">
+                    <div style="text-align:left">
+                        Product characteristics | <a (click)="showDialogToAdd()">Add</a>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-chars>
+                    <tr [pSelectableRow]="chars">
+                        <td>
+                            {{chars.title}}
+                        </td>
+                        <td>
+                            {{chars.type}}
+                        </td>
+                        <td>
+                            <a>Remove</a>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8" style="text-align:left">No Inventory Items found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-dialog [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+                [modal]="true">
+                <div class="ui-g ui-fluid" *ngIf="item">
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label>Name</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input pInputText [(ngModel)]="item.title" />
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Type</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="types" [(ngModel)]="item.type" optionLabel="label"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                        <!-- <button *ngIf="newItem; else del" type="button" pButton icon="pi pi-times" (click)="delete()"
+                            label="Cancel"></button> -->
+                        <ng-template #del>
+                            <!-- <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button> -->
+                        </ng-template>
+                        <button type="button" pButton icon="pi pi-check" (click)="addNewProdChar()" label="Save"></button>
+                    </div>
+                </p-footer>
+            </p-dialog>
+        </div>
+    </p-tabPanel>
+</p-tabView>

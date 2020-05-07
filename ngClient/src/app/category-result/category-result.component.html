@@ -1,0 +1,10 @@
+<div class="container mt-2">
+  <div>
+    <p-breadcrumb [model]="categories"></p-breadcrumb>
+  </div>
+  <div class="grid sm:grid-cols-2 md:grid-cols-5">
+    <div *ngFor="let item of items">
+      <app-item-view [data]="item"></app-item-view>
+    </div>
+  </div>
+</div>

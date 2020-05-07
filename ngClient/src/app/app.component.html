@@ -1,0 +1,59 @@
+<section style="height: 100vh;">
+  <section style="height: 7vh;">
+    <app-header></app-header>
+  </section>
+  <section style="height: 80vh; overflow: auto;">
+    <div class="my-2 container">
+      <div class="ui-fluid ui-g">
+        <div class="ui-lg-12">
+          <input #inp [ngModel]='query' (ngModelChange)='changed($event)' placeholder="Search"
+            (focus)="showSearch = true" (blur)="closeSearch()" pInputText />
+        </div>
+      </div>
+
+      <section *ngIf="!showSearch; else searchResults">
+        <router-outlet></router-outlet>
+      </section>
+
+      <ng-template #searchResults>
+        <div>
+          <app-search #searchComp (categorySelected)="selectCategory($event)" (productSelected)="selectProduct($event)">
+          </app-search>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+  <footer>
+    <div class="mt-8">
+      <div class="container">
+        <div class="flex items-center justify-between border-t py-8">
+          <div class="justify-start  text-xs w-2/5 flex">
+            <div class="mr-4">
+              &copy; EasyBaby
+            </div>
+            <div class="mr-4">
+              <a href="#" class="no-underline">
+                Terms
+              </a>
+            </div>
+            <div class="mr-4">
+              <a href="#" class="no-underline">
+                Privacy
+              </a>
+            </div>
+            <div class="mr-4">
+              <a href="#" class="no-underline">
+                Contact
+              </a>
+            </div>
+            <div class="mr-4">
+              <a href="#" class="no-underline">
+                About
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>

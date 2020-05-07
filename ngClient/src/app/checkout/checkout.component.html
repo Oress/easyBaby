@@ -1,0 +1,169 @@
+<div class="container">
+
+    <!-- ORDER ITEMS -->
+    <section class="mb-2">
+        <p-panel header="Items" [toggleable]="true">
+            <div class="inline-block min-w-full overflow-hidden">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Product
+                            </th>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Quantity
+                            </th>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Price per item
+                            </th>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cart?.available">
+                            <td class="cursor-pointer px-5 py-5 border-b border-gray-200 text-sm">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 w-10 h-10">
+                                        <img *ngIf="item.image; else defImage"
+                                            [src]="'/api/product/img?uid=' + item.image">
+                                        <ng-template #defImage>
+                                            <img src="assets/images/no_image.png">
+                                        </ng-template>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-gray-900 whitespace-no-wrap">
+                                            {{item.productTitle}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{item.count}}
+                                </p>
+                            </td>
+
+                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{item.pricePerItem | currency:"UAH":"symbol-narrow"}}
+                                </p>
+                            </td>
+
+                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                <span
+                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                    <span aria-hidden
+                                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                    <span class="relative">{{item.totalPrice | currency:"UAH":"symbol-narrow"}}</span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="px-5 py-5  border-t flex flex-col xs:flex-row xs:justify-between">
+                    <span class="float-right text-xl xs:text-sm text-gray-900">TOTAL:
+                        {{cart?.totalPrice | currency:"UAH":"symbol-narrow"}}</span>
+                </div>
+            </div>
+        </p-panel>
+    </section>
+
+    <!-- CONTACT INFO -->
+    <section class="mb-2">
+        <p-panel header="Contact Info:" [toggleable]="true">
+            <form [formGroup]="contactInfoForm">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-grid-row">
+                        <div class="ui-g-12">
+                            <label for="float-input">Name:</label>
+                            <input id="float-input" formControlName="name" type="text" autocomplete="off" pInputText>
+                            <div class="text-red-700"
+                                *ngIf="!contactInfoForm.controls.name.valid&&contactInfoForm.controls.name.dirty">
+                                Name is required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-g-12">
+                            <label for="price">Address:</label>
+                            <input id="float-input" formControlName="address" type="text" autocomplete="off" pInputText>
+                            <!-- <p-dropdown [options]="addresses" formControlName="address"></p-dropdown> -->
+                            <!-- <input id="price" type="text" autocomplete="off" pInputText> -->
+                            <div class="text-red-700"
+                                *ngIf="!contactInfoForm.controls.address.valid&&contactInfoForm.controls.address.dirty">
+                                Address is required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-g-12 mt-2">
+                            <label>Mobile Phone:</label>
+                            <p-inputMask id="phone" placeholder="+380-(__)-___-____" formControlName="phone"
+                                mask="+380-(99)-999-9999"></p-inputMask>
+                            <div class="text-red-700"
+                                *ngIf="!contactInfoForm.controls.phone.valid&&contactInfoForm.controls.phone.dirty">
+                                Phone is required!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-panel>
+    </section>
+
+
+    <!-- DELIVERY INFO -->
+    <section class="mb-2">
+        <p-panel [collapsed]="true" header="Delivery Info:" [toggleable]="true">
+            <form [formGroup]="deliveryInfoForm">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                        <div class="ui-g-12">
+                            <p-radioButton name="group1" [value]="deliveryType.PICKUP" label="Pick-up"
+                                formControlName="type">
+                            </p-radioButton>
+                        </div>
+                        <div class="ui-g-12">
+                            <p-radioButton name="group1" [value]="deliveryType.DELIVERY" label="Delivery"
+                                formControlName="type">
+                            </p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-panel>
+    </section>
+
+    <!-- PAYMENT INFO -->
+    <section class="mb-2">
+        <p-panel [collapsed]="true" header="Payment Info:" [toggleable]="true">
+            <form [formGroup]="paymentInfoForm">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                        <div class="ui-g-12">
+                            <p-radioButton name="group2" [value]="paymentType.UPON_RECIPT" label="Payment upon receipt"
+                                formControlName="type"></p-radioButton>
+                        </div>
+                        <div class="ui-g-12">
+                            <p-radioButton name="group2" [value]="paymentType.CARD_ONLINE" label="Pay now with card"
+                                formControlName="type"></p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-panel>
+    </section>
+
+    <!-- BUTTONS INFO -->
+    <section class="p-2 flex justify-end">
+        <button pButton type="button" label="Order" icon="pi pi-check" class="ui-button-success"
+            (click)="order()"></button>
+    </section>
+</div>
